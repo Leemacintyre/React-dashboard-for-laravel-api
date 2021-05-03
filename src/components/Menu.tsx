@@ -19,6 +19,9 @@ const Menu = () => {
               <NavLink to={'/roles'} className="nav-link">
                 Roles
               </NavLink>
+              <NavLink to={'/products'} className="nav-link">
+                Products
+              </NavLink>
             </li>
           </ul>
         </div>
