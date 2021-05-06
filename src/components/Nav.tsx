@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import {User} from "../models/user"
+import { connect } from 'react-redux';
+import { User } from '../models/user';
 
-const Nav = () => {
-  const [user, setUser] = useState(new User())
+const Nav = (props: { user: User }) => {
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get('user');
-
-      setUser(new User(
-        data.id,
-        data.first_name,
-        data.last_name,
-        data.email,
-        data.role
-      ));
-    })()
-  }, []);
+  const { user } = props
 
   const logout = async () => {
     await axios.post('logout', {});
@@ -29,7 +17,7 @@ const Nav = () => {
       <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Company name</a>
       <ul>
         <li className="p-2 my-md-0 mr-md-3">
-          <Link to={'/profile'} className="p-2 text-white text-decoration-none" >{user.name}</Link>
+          <Link to={'/profile'} className="p-2 text-white text-decoration-none">{user.name}</Link>
           <Link to={'/login'} className="p-2 text-white text-decoration-none"
                 onClick={logout}
           >Sign out</Link>
@@ -39,4 +27,10 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+const mapStateToProps = (state: { user: User }) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Nav);
